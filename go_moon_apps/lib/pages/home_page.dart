@@ -7,7 +7,30 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: SafeArea(child: Container(child: _pageTitle())));
+    _deviceHeight = MediaQuery.of(context).size.height;
+    _deviceWidth = MediaQuery.of(context).size.width;
+    return Scaffold(
+      body: SafeArea(
+        child: Container(
+          height: _deviceHeight,
+          width: _deviceWidth,
+          padding: EdgeInsets.symmetric(
+            horizontal: _deviceWidth * 0.05,
+            // vertical: _deviceHeight,
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisSize: MainAxisSize.max,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _pageTitle(),
+              // _astroImageWidget(),
+              _destinationDropdownWidget(),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 
   Widget _pageTitle() {
@@ -22,12 +45,37 @@ class HomePage extends StatelessWidget {
   }
 
   Widget _astroImageWidget() {
-    return Container(
-      decoration: const BoxDecoration(
-        image: DecorationImage(
-          fit: BoxFit.contain,
-          image: AssetImage("assets/images/astronot.png"),
+    return Expanded(
+      child: Container(
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            fit: BoxFit.contain,
+            image: AssetImage("assets/images/astronot.png"),
+          ),
         ),
+      ),
+    );
+  }
+
+  Widget _destinationDropdownWidget() {
+    List<String> _items = ["arya", "ikbal"];
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: _deviceWidth * 0.05),
+      width: _deviceWidth,
+      decoration: BoxDecoration(
+        color: const Color.fromRGBO(53, 53, 53, 1.0),
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: DropdownButton(
+        underline: Container(),
+        value: _items.first,
+        onChanged: (_) {},
+        items:
+            _items.map((e) {
+              return DropdownMenuItem(child: Text(e), value: e);
+            }).toList(),
+        dropdownColor: const Color.fromRGBO(53, 53, 53, 1.0),
+        style: const TextStyle(color: Colors.white),
       ),
     );
   }
