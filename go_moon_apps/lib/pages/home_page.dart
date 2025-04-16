@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_moon/widgets/custom_dropdown_buttom.dart';
 
 class HomePage extends StatelessWidget {
   late double _deviceHeight, _deviceWidth;
@@ -18,14 +19,22 @@ class HomePage extends StatelessWidget {
             horizontal: _deviceWidth * 0.05,
             // vertical: _deviceHeight,
           ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            mainAxisSize: MainAxisSize.max,
-            crossAxisAlignment: CrossAxisAlignment.start,
+          child: Stack(
             children: [
-              _pageTitle(),
-              // _astroImageWidget(),
-              _destinationDropdownWidget(),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisSize: MainAxisSize.max,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _pageTitle(),
+                  // _astroImageWidget(),
+                  _bookRideWidget(),
+                ],
+              ),
+              Align(
+                alignment: Alignment.centerRight,
+                child: _astroImageWidget(),
+              ),
             ],
           ),
         ),
@@ -45,37 +54,70 @@ class HomePage extends StatelessWidget {
   }
 
   Widget _astroImageWidget() {
-    return Expanded(
-      child: Container(
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-            fit: BoxFit.contain,
-            image: AssetImage("assets/images/astronot.png"),
-          ),
+    return Container(
+      height: _deviceHeight * 0.50,
+      width: _deviceWidth * 0.70,
+      decoration: const BoxDecoration(
+        image: DecorationImage(
+          fit: BoxFit.fill,
+          image: AssetImage("assets/images/astronot.png"),
         ),
       ),
     );
   }
 
-  Widget _destinationDropdownWidget() {
-    List<String> _items = ["arya", "ikbal"];
+  Widget _bookRideWidget() {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: _deviceWidth * 0.05),
+      height: _deviceHeight * 0.25,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisSize: MainAxisSize.max,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          _destinationDropdownWidget(),
+          _travelsInformationWidget(),
+          _rideButton(),
+        ],
+      ),
+    );
+  }
+
+  Widget _destinationDropdownWidget() {
+    return CustomDropdownButtomClass(
+      values: const ["arya", "ikbal"],
       width: _deviceWidth,
+    );
+  }
+
+  Widget _travelsInformationWidget() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      mainAxisSize: MainAxisSize.max,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        CustomDropdownButtomClass(
+          values: const ["1", "2", "3", "4"],
+          width: _deviceWidth * 0.40,
+        ),
+        CustomDropdownButtomClass(
+          values: const ["Economy", "Buissnes", "VIP"],
+          width: _deviceWidth * 0.40,
+        ),
+      ],
+    );
+  }
+
+  Widget _rideButton() {
+    return Container(
+      padding: EdgeInsets.only(bottom: _deviceHeight * 0.01),
       decoration: BoxDecoration(
-        color: const Color.fromRGBO(53, 53, 53, 1.0),
+        color: Colors.white,
         borderRadius: BorderRadius.circular(10),
       ),
-      child: DropdownButton(
-        underline: Container(),
-        value: _items.first,
-        onChanged: (_) {},
-        items:
-            _items.map((e) {
-              return DropdownMenuItem(child: Text(e), value: e);
-            }).toList(),
-        dropdownColor: const Color.fromRGBO(53, 53, 53, 1.0),
-        style: const TextStyle(color: Colors.white),
+      width: _deviceWidth,
+      child: MaterialButton(
+        onPressed: () {},
+        child: const Text("Book Ride!", style: TextStyle(color: Colors.black)),
       ),
     );
   }
